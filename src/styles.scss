@@ -11,7 +11,7 @@ html {
   @include mat.theme(
     (
       color: (
-        primary: mat.$cyan-palette,
+        primary: mat.$azure-palette,
         tertiary: mat.$orange-palette,
       ),
       typography: Roboto,
@@ -28,4 +28,17 @@ body {
   font: var(--mat-sys-body-medium);
 
   height: 100%;
+  text-wrap: balance;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 20px;
+}
+
+button {
+  border-radius: 6px !important;
 }

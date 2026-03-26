@@ -1,0 +1,64 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.btn-fab-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+}
+
+.btn-item {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: auto;
+
+  .folder-item {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .folder-icon {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 12px;
+    background: var(--mdc-filled-button-container-color, rgba(128, 128, 128, 0.12));
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    mat-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .folder-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+
+    .folder-name {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .folder-meta {
+      font-size: 12px;
+      opacity: 0.7;
+      line-height: 1.2;
+    }
+  }
+}
