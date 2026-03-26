@@ -1,0 +1,34 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Installa dipendenze
+        run: npm install
+
+      - name: Build del progetto
+        run: npx ng build --configuration production --base-href /mkdir-photo/
+
+      - name: Deploy su GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist/mk-dir-photo/browser 
+          branch: gh-pages
