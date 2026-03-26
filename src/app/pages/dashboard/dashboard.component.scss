@@ -3,11 +3,7 @@
   width: 100%;
 }
 
-.btn-fab-container {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-}
+
 
 .btn-item {
   display: flex;
@@ -22,38 +18,6 @@
     align-items: center;
     gap: 10px;
     margin: 10px 0;
-  }
-
-  .folder-icon {
-    width: 40px;
-    height: 40px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    mat-icon {
-      font-size: 34px;
-      width: auto;
-      height: auto;
-    }
-  }
-
-  .folder-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-
-    .folder-name {
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .folder-meta {
-      font-size: 12px;
-      opacity: 0.7;
-      line-height: 1.2;
-    }
+    color: whitesmoke;
   }
 }

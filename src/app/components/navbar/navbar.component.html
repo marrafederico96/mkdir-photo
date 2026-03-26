@@ -1,7 +1,8 @@
 <mat-toolbar>
     <span>MkDir Photo</span>
     @if (this.rootDir()) {
-    <button matButton="tonal" (click)="setRootDirectory()">
+    <button matFab extended (click)="setRootDirectory()">
+        <mat-icon>folder</mat-icon>
         {{this.rootDir()?.name}}
     </button>
     } @else {
@@ -11,3 +12,4 @@
     </button>
     }
 </mat-toolbar>
+<mat-divider></mat-divider>
