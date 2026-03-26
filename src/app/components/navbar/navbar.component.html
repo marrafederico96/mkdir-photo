@@ -1,13 +1,11 @@
 <mat-toolbar>
     <span>MkDir Photo</span>
     @if (this.rootDir()) {
-    <button matFab extended (click)="setRootDirectory()">
-        <mat-icon>folder</mat-icon>
+    <button matButton="tonal" (click)="setRootDirectory()">
         {{this.rootDir()?.name}}
     </button>
     } @else {
-    <button matFab extended (click)="setRootDirectory()">
-        <mat-icon>folder</mat-icon>
+    <button matButton="tonal" (click)="setRootDirectory()">
         Seleziona Root
     </button>
     }
