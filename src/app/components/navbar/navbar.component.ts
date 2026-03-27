@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FileSystemService } from '../../services/file-system.service';
 
 // Material component
@@ -16,7 +16,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 export class NavbarComponent {
   private fileSystemService = inject(FileSystemService);
 
-  rootDir = computed(() => this.fileSystemService.rootDirectory());
+  rootDir = this.fileSystemService.rootDirectory;
 
   async setRootDirectory() {
     const rootHandle = await window.showDirectoryPicker({

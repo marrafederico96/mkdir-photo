@@ -15,6 +15,11 @@ export class FloatingButtonComponent {
   private cameraService = inject(CameraService);
 
   async openCamera() {
-    const stream = await this.cameraService.start('environment');
+    try {
+      const file = await this.cameraService.takePhoto();
+      this.cameraService.savePhoto(file);
+    } catch (err) {
+      console.error('Foto annullata o errore:', err);
+    }
   }
 }

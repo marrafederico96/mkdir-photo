@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { FileSystemService } from '../../services/file-system.service';
 
 // Material component
@@ -15,31 +15,23 @@ import { MatIconModule } from '@angular/material/icon';
 export class DashboardComponent {
   private fileSystemService = inject(FileSystemService);
 
-  contentDir = signal<FileSystemHandle[] | undefined>(undefined);
+  contentDir = this.fileSystemService.contentDir;
+  canGoBack = this.fileSystemService.canGoBack;
 
   constructor() {
     effect(async () => {
       const root = this.fileSystemService.rootDirectory();
-      if (root) await this.loadDirectories(root);
+      if (root) await this.fileSystemService.initRoot(root);
     });
   }
 
-  async loadDirectories(root: FileSystemDirectoryHandle) {
-    if (root) {
-      const items: FileSystemHandle[] = [];
-
-      for await (const entry of root.values()) {
-        items.push(entry);
-      }
-
-      const sortedItems = items.sort((a, b) => {
-        if (a.kind !== b.kind) {
-          return a.kind === 'directory' ? -1 : 1;
-        }
-        return a.name.localeCompare(b.name);
-      });
-
-      this.contentDir.set(sortedItems);
+  async openItem(handle: FileSystemHandle) {
+    if (handle.kind === 'directory') {
+      await this.fileSystemService.navigateTo(handle as FileSystemDirectoryHandle);
     }
+  }
+
+  async goBack() {
+    await this.fileSystemService.navigateBack();
   }
 }

@@ -1,39 +1,31 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class CameraService {
-  private stream: MediaStream | null = null;
-  private imageCapture: ImageCapture | null = null;
+  takePhoto(): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.capture = 'environment';
 
-  async start(facingMode: 'environment' | 'user' = 'environment'): Promise<MediaStream> {
-    this.stop();
+      input.onchange = () => {
+        const file = input.files?.[0];
+        if (file) resolve(file);
+        else reject(new Error('Nessuna foto selezionata'));
+      };
 
-    this.stream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        facingMode: { ideal: facingMode },
-      },
-      audio: true,
+      input.oncancel = () => reject(new Error('Annullato'));
+      input.click();
     });
-
-    const track = this.stream.getVideoTracks()[0];
-    this.imageCapture = new ImageCapture(track);
-    return this.stream;
   }
 
-  async takePhoto(): Promise<Blob> {
-    if (!this.imageCapture) throw new Error('Camera non attiva');
-    return this.imageCapture.takePhoto();
-  }
-
-  stop(): void {
-    this.stream?.getTracks().forEach((t) => t.stop());
-    this.stream = null;
-    this.imageCapture = null;
-  }
-
-  isActive(): boolean {
-    return !!this.stream;
+  savePhoto(file: File, fileName?: string): void {
+    const url = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName ?? `foto_${Date.now()}.jpg`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 }

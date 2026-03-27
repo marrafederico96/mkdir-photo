@@ -1,6 +1,14 @@
 <div class="page-content">
+
+    <div>
+        <button matButton="tonal" [disabled]="!canGoBack()" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            Indietro
+        </button>
+    </div>
+
     @for (item of contentDir(); track $index) {
-    <button matButton class="btn-item">
+    <button matButton class="btn-item" (click)="openItem(item)">
         <div class="folder-item">
             <mat-icon>{{ item.kind === 'directory' ? 'folder' : 'description' }}</mat-icon>
             <span>{{item.name}}</span>
