@@ -1,59 +1,91 @@
-# MkDirPhoto
+# File Explorer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.4.
+Un'applicazione web mobile-first per esplorare e organizzare file locali direttamente dal browser, senza upload su server.
 
-## Development server
+---
 
-To start a local development server, run:
+## Funzionalità
+
+- **Esplora i tuoi file** — naviga nelle cartelle del tuo dispositivo
+- **Anteprima immagini** — le immagini mostrano una miniatura direttamente nella lista
+- **Crea cartelle** — organizza i tuoi file creando nuove directory
+- **Navigazione avanti/indietro** — torna alle cartelle precedenti con il tasto indietro o il gesto del browser
+
+---
+
+## Come si usa
+
+1. Apri l'app e concedi l'accesso alla cartella che vuoi esplorare
+2. Naviga tra le cartelle toccando una directory
+3. Le immagini mostrano un'anteprima direttamente nella lista
+4. Usa il tasto **Indietro** per tornare alla cartella precedente
+5. Per creare una nuova cartella, usa l'apposita funzione e inserisci il nome
+
+> L'app non carica nessun file su internet. Tutto rimane sul tuo dispositivo.
+
+---
+
+## Stack tecnico
+
+| Tecnologia             | Versione     |
+| ---------------------- | ------------ |
+| Angular                | 19+          |
+| Angular Material       | 19+          |
+| File System Access API | Web standard |
+
+### Architettura
+
+L'app è costruita attorno a `FileSystemService`, un servizio Angular singleton che gestisce:
+
+- lo stato della directory corrente tramite **signals**
+- lo stack di navigazione per il tasto indietro
+- la cache delle thumbnail con `URL.createObjectURL`
+
+```
+src/
+├── app/
+│   ├── services/
+│   │   └── file-system.service.ts   # logica principale
+│   └── components/
+│       └── dashboard/
+│           ├── dashboard.component.ts
+│           ├── dashboard.component.html
+│           └── dashboard.component.scss
+```
+
+### File System Access API
+
+L'app usa la [File System Access API](https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API) per accedere ai file locali. Questa API è supportata da Chrome e Edge su desktop e mobile; non è supportata da Firefox e Safari.
+
+### Thumbnail
+
+Le anteprime vengono generate con `URL.createObjectURL` e messe in cache in un signal (`Map<string, string>`). Vengono revocate con `URL.revokeObjectURL` alla distruzione del component per evitare memory leak.
+
+---
+
+## Installazione e avvio
 
 ```bash
+# Installa le dipendenze
+npm install
+
+# Avvia il server di sviluppo
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
+# Build di produzione
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## Requisiti
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+- Node.js 18+
+- Browser basato su Chromium (Chrome, Edge, Opera)
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+## Limitazioni note
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- La File System Access API non è supportata da Firefox e Safari
+- Le thumbnail sono generate solo per immagini nei formati `jpg`, `jpeg`, `png`, `gif`, `webp`, `avif`
