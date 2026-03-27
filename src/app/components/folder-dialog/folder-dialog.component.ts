@@ -7,6 +7,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { FileSystemService } from '../../services/file-system.service';
 
 @Component({
   selector: 'app-folder-dialog',
@@ -23,16 +24,31 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class FolderDialogComponent {
   private dialogRef = inject(MatDialogRef<FolderDialogComponent>);
+  private fileSystemService = inject(FileSystemService);
 
   folderName = new FormControl('', Validators.required);
+  currentDir = this.fileSystemService.currentDirHandle;
 
   close() {
     this.dialogRef.close(null);
   }
 
-  create() {
+  async create() {
     if (this.folderName.valid) {
-      this.dialogRef.close(this.folderName.value);
+      const name = this.folderName.value!;
+      const current = this.currentDir();
+
+      if (current) {
+        try {
+          await current.getDirectoryHandle(name, { create: false });
+          this.folderName.setErrors({ alreadyExists: true });
+          return;
+        } catch (err: any) {
+          if (err.name !== 'NotFoundError') throw err;
+        }
+      }
+
+      this.dialogRef.close(name);
     }
   }
 }

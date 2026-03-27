@@ -20,12 +20,22 @@ export class CameraService {
     });
   }
 
-  savePhoto(file: File, fileName?: string): void {
-    const url = URL.createObjectURL(file);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName ?? `foto_${Date.now()}.jpg`;
-    a.click();
-    URL.revokeObjectURL(url);
+  async savePhoto(
+    file: File,
+    dirHandle: FileSystemDirectoryHandle,
+    folderName: string,
+  ): Promise<void> {
+    let count = 0;
+    for await (const entry of dirHandle.values()) {
+      if (entry.kind === 'file') count++;
+    }
+
+    const ext = file.name.split('.').pop() ?? 'jpg';
+    const fileName = `${folderName}_${count + 1}.${ext}`;
+
+    const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
+    const writable = await fileHandle.createWritable();
+    await writable.write(file);
+    await writable.close();
   }
 }

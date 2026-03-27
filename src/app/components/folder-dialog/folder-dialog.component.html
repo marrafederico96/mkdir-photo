@@ -4,8 +4,8 @@
     <mat-form-field appearance="outline" class="full-width">
         <mat-label>Folder name</mat-label>
         <input matInput [formControl]="folderName" required />
-        @if (folderName.hasError('required')) {
-        <mat-error>Il nome è obbligatorio</mat-error>
+        @if (folderName.hasError('alreadyExists')) {
+        <mat-error>Una cartella con questo nome esiste già</mat-error>
         }
     </mat-form-field>
 </mat-dialog-content>

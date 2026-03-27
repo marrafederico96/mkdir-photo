@@ -26,7 +26,13 @@ export class FloatingButtonComponent {
   async openCamera() {
     try {
       const file = await this.cameraService.takePhoto();
-      this.cameraService.savePhoto(file);
+
+      const dirHandle = this.currentDir();
+      if (dirHandle) {
+        const folderName = dirHandle.name;
+        await this.cameraService.savePhoto(file, dirHandle, folderName);
+        await this.fileSystemService.loadDirectories(dirHandle);
+      }
     } catch (err) {
       console.error('Foto annullata o errore:', err);
     }
