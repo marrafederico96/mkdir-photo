@@ -8,10 +8,13 @@
     </div>
 
     @for (item of contentDir(); track $index) {
-    <button matButton class="btn-item" (click)="openItem(item)">
-        <div class="folder-item">
-            <mat-icon>{{ item.kind === 'directory' ? 'folder' : 'description' }}</mat-icon>
-            <span>{{item.name}}</span>
+    <button matButton class="btn-item" [class.directory]="item.kind === 'directory'" (click)="openItem(item)">
+        <div class="btn-row">
+            <div class="folder-item">
+                <mat-icon>{{ item.kind === 'directory' ? 'folder' : 'description' }}</mat-icon>
+                <span>{{item.name}}</span>
+            </div>
+            <button matIconButton><mat-icon>edit</mat-icon></button>
         </div>
     </button>
     }

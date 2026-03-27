@@ -3,14 +3,24 @@
   width: 100%;
 }
 
-
-
 .btn-item {
   display: flex;
   justify-content: start;
   align-items: center;
   width: 100%;
-  height: auto;
+  height: 60px;
+
+  ::ng-deep .mat-mdc-button-touch-target,
+  ::ng-deep .mdc-button__label {
+    width: 100%;
+  }
+
+  .btn-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   .folder-item {
     display: flex;
@@ -20,4 +30,9 @@
     margin: 10px 0;
     color: whitesmoke;
   }
+}
+
+.directory {
+  border-radius: 6px;
+  border: 1px solid;
 }
