@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, OnDestroy } from '@angular/core';
 import { FileSystemService } from '../../services/file-system.service';
 
 // Material component
@@ -12,11 +12,19 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnDestroy {
   private fileSystemService = inject(FileSystemService);
 
   contentDir = this.fileSystemService.contentDir;
   canGoBack = this.fileSystemService.canGoBack;
+
+  ngOnDestroy(): void {
+    this.fileSystemService.revokeAllThumbnails();
+  }
+
+  getThumbnail(name: string): string | undefined {
+    return this.fileSystemService.thumbnailCache().get(name);
+  }
 
   constructor() {
     effect(async () => {

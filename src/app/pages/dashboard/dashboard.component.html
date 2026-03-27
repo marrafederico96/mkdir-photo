@@ -1,5 +1,4 @@
 <div class="page-content">
-
     <div>
         <button matButton="tonal" [disabled]="!canGoBack()" (click)="goBack()">
             <mat-icon>arrow_back</mat-icon>
@@ -9,12 +8,13 @@
 
     @for (item of contentDir(); track $index) {
     <button matButton class="btn-item" [class.directory]="item.kind === 'directory'" (click)="openItem(item)">
-        <div class="btn-row">
-            <div class="folder-item">
-                <mat-icon>{{ item.kind === 'directory' ? 'folder' : 'description' }}</mat-icon>
-                <span>{{item.name}}</span>
-            </div>
-            <button matIconButton><mat-icon>edit</mat-icon></button>
+        <div class="folder-item">
+            @if (item.kind === 'file' && getThumbnail(item.name)) {
+            <img class="file-thumb" [src]="getThumbnail(item.name)" [alt]="item.name" />
+            } @else {
+            <mat-icon>{{ item.kind === 'directory' ? 'folder' : 'description' }}</mat-icon>
+            }
+            <span>{{ item.name }}</span>
         </div>
     </button>
     }
