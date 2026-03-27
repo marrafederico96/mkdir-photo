@@ -23,6 +23,11 @@ export class DashboardComponent {
       const root = this.fileSystemService.rootDirectory();
       if (root) await this.fileSystemService.initRoot(root);
     });
+    window.addEventListener('popstate', async (event: PopStateEvent) => {
+      if (this.canGoBack()) {
+        await this.goBack();
+      }
+    });
   }
 
   async openItem(handle: FileSystemHandle) {

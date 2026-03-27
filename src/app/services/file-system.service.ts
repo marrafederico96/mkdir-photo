@@ -37,6 +37,7 @@ export class FileSystemService {
   async navigateTo(dirHandle: FileSystemDirectoryHandle): Promise<void> {
     const current = this.currentDirHandle();
     if (current) this.historyStack.update((s) => [...s, current]);
+    history.pushState({ inApp: true }, '');
     this.currentDirHandle.set(dirHandle);
     await this.loadDirectories(dirHandle);
   }
@@ -49,6 +50,13 @@ export class FileSystemService {
       this.currentDirHandle.set(previous);
       await this.loadDirectories(previous);
     }
+  }
+
+  async createFolder(name: string) {
+    const current = this.currentDirHandle();
+    if (!current) throw new Error('Nessuna directory corrente');
+    await current.getDirectoryHandle(name, { create: true });
+    await this.loadDirectories(current);
   }
 
   async navigateToRoot(): Promise<void> {

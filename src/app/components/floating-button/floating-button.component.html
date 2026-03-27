@@ -1,8 +1,8 @@
 <div class="btn-fab-container">
-    <button matFab>
+    <button matFab (click)="openDialog()" [disabled]="!rootDir()">
         <mat-icon>create_new_folder</mat-icon>
     </button>
-    <button matFab (click)="openCamera()">
+    <button matFab (click)="openCamera()" [disabled]="!rootDir()">
         <mat-icon>camera</mat-icon>
     </button>
 </div>
