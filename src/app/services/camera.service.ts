@@ -31,7 +31,7 @@ export class CameraService {
     }
 
     const ext = file.name.split('.').pop() ?? 'jpg';
-    const fileName = `${folderName}_${count + 1}.${ext}`;
+    const fileName = `${folderName.replaceAll(' ', '_')}_${count + 1}.${ext}`;
 
     const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
     const writable = await fileHandle.createWritable();
