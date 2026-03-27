@@ -98,6 +98,6 @@ export class FileSystemService {
   revokeAllThumbnails(): void {
     this.objectUrls.forEach((url) => URL.revokeObjectURL(url));
     this.objectUrls = [];
-    this.thumbnailCache.set(new Map()); // reset del signal
+    this.thumbnailCache.set(new Map());
   }
 }
