@@ -13,7 +13,6 @@ export class FileSystemService {
 
   private historyStack = signal<FileSystemDirectoryHandle[]>([]);
   thumbnailCache = signal<Map<string, string>>(new Map());
-  private objectUrls: string[] = [];
 
   async loadDirectories(root: FileSystemDirectoryHandle): Promise<void> {
     const items: FileSystemHandle[] = [];
@@ -28,7 +27,6 @@ export class FileSystemService {
     });
 
     this.contentDir.set(sortedItems);
-    await this.loadThumbnails(sortedItems);
   }
 
   async initRoot(root: FileSystemDirectoryHandle): Promise<void> {
@@ -71,33 +69,31 @@ export class FileSystemService {
     }
   }
 
-  private async loadThumbnails(items: FileSystemHandle[]): Promise<void> {
-    const fileItems = items.filter((i) => i.kind === 'file') as FileSystemFileHandle[];
-    await Promise.all(
-      fileItems.map(async (handle) => {
-        if (this.thumbnailCache().has(handle.name)) return;
-        try {
-          const file = await handle.getFile();
-          const isImage =
-            file.type.startsWith('image/') || /\.(jpg|jpeg|png|gif|webp|avif)$/i.test(handle.name);
-          if (!isImage) return;
-          const url = URL.createObjectURL(file);
-          this.thumbnailCache.update((cache) => new Map(cache).set(handle.name, url));
-          this.objectUrls.push(url);
-        } catch (e) {
-          console.error('errore thumbnail:', handle.name, e);
-        }
-      }),
-    );
-  }
+  async deleteFileOrDirectory(handle: FileSystemHandle): Promise<void> {
+    const current = this.currentDirHandle();
 
-  getThumbnail(name: string): string | undefined {
-    return this.thumbnailCache().get(name);
-  }
+    if (!current) throw new Error('Nessuna directory corrente selezionata');
 
-  revokeAllThumbnails(): void {
-    this.objectUrls.forEach((url) => URL.revokeObjectURL(url));
-    this.objectUrls = [];
-    this.thumbnailCache.set(new Map());
+    const confirmed = confirm(`Sei sicuro di voler eliminare ${handle.name}?`);
+    if (!confirmed) return;
+
+    try {
+      await current.removeEntry(handle.name, { recursive: true });
+
+      await this.loadDirectories(current);
+
+      if (handle.kind === 'file') {
+        this.thumbnailCache.update((cache) => {
+          const newCache = new Map(cache);
+          newCache.delete(handle.name);
+          return newCache;
+        });
+      }
+    } catch (error) {
+      console.error("Errore durante l'eliminazione:", error);
+      alert(
+        "Impossibile eliminare l'elemento. Potrebbe essere aperto in un altro programma o non avere i permessi necessari.",
+      );
+    }
   }
 }
