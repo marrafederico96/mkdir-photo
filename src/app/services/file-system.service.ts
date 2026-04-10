@@ -23,7 +23,7 @@ export class FileSystemService {
 
     const sortedItems = items.sort((a, b) => {
       if (a.kind !== b.kind) return a.kind === 'directory' ? -1 : 1;
-      return a.name.localeCompare(b.name);
+      return 0;
     });
 
     this.contentDir.set(sortedItems);
