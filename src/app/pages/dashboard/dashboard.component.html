@@ -14,7 +14,10 @@
             <span class="item-name">{{ item.name }}</span>
         </div>
 
+        @if(item.kind === 'directory') {
         <button matIconButton (click)="openCamera(item)"><mat-icon>camera</mat-icon></button>
+        }
+
         <button matIconButton class="delete-btn" (click)="deleteItem($event, item)">
             <mat-icon>delete</mat-icon>
         </button>
