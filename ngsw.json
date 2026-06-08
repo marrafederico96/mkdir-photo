@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1780920790390,
+  "timestamp": 1780921264334,
   "index": "/mkdir-photo/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/mkdir-photo/favicon.ico",
         "/mkdir-photo/index.html",
-        "/mkdir-photo/main-DKZL5G7Y.js",
+        "/mkdir-photo/main-GBRRKOVR.js",
         "/mkdir-photo/manifest.webmanifest",
         "/mkdir-photo/styles-MWHR3MSP.css"
       ],
@@ -50,8 +50,8 @@
     "/mkdir-photo/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/mkdir-photo/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/mkdir-photo/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/mkdir-photo/index.html": "623cd83280c5dd83fdccbc208a5b0e7491d12d17",
-    "/mkdir-photo/main-DKZL5G7Y.js": "015ea9b160df9c7e80705ca8f5262fac6cea9b3b",
+    "/mkdir-photo/index.html": "cae764fb21a7adc97777b00a4bcf5d9df9d47c45",
+    "/mkdir-photo/main-GBRRKOVR.js": "8a6a5bf48222ce95c9a79daf44b2f70de9a1991d",
     "/mkdir-photo/manifest.webmanifest": "cc49e8b8e9347b1208ca3a9edbb31ae625ce57be",
     "/mkdir-photo/styles-MWHR3MSP.css": "ba197188cd78d7972b2b1afce452d0283ac827eb"
   },
