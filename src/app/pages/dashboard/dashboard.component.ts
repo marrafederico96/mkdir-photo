@@ -5,6 +5,7 @@ import { FileSystemService } from '../../services/file-system.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { CameraService } from '../../services/camera.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,9 +15,11 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class DashboardComponent {
   private fileSystemService = inject(FileSystemService);
+  private cameraService = inject(CameraService);
 
   contentDir = this.fileSystemService.contentDir;
   canGoBack = this.fileSystemService.canGoBack;
+
 
   constructor() {
     effect(async () => {
@@ -28,6 +31,22 @@ export class DashboardComponent {
         await this.goBack();
       }
     });
+  }
+
+  async openCamera(directory: FileSystemHandle) {
+    try {
+      const file = await this.cameraService.takePhoto();
+
+      const dirHandle = directory;
+      
+      if (dirHandle) {
+        const folderName = dirHandle.name;
+        await this.cameraService.savePhoto(file, dirHandle as FileSystemDirectoryHandle, folderName);
+        await this.fileSystemService.loadDirectories(dirHandle as FileSystemDirectoryHandle);
+      }
+    } catch (err) {
+      console.error('Foto annullata o errore:', err);
+    }
   }
 
   async deleteItem(event: MouseEvent, handle: FileSystemHandle) {
