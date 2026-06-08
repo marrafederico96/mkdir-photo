@@ -42,7 +42,6 @@ export class DashboardComponent {
       if (dirHandle) {
         const folderName = dirHandle.name;
         await this.cameraService.savePhoto(file, dirHandle as FileSystemDirectoryHandle, folderName);
-        await this.fileSystemService.loadDirectories(dirHandle as FileSystemDirectoryHandle);
       }
     } catch (err) {
       console.error('Foto annullata o errore:', err);
